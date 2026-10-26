@@ -160,24 +160,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Scroll Fade-Up Animations
-    const fadeElements = document.querySelectorAll('.srv-fade-up');
+    // 5. Universal Sitewide Scroll Fade-Up Animations
+    const fadeElements = document.querySelectorAll('.fade-up, .srv-fade-up, .service-card');
     if ('IntersectionObserver' in window && fadeElements.length > 0) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('srv-in-view');
-                    observer.unobserve(entry.target);
+                    entry.target.classList.add('srv-in-view', 'in-view');
+                } else if (entry.boundingClientRect.top > window.innerHeight + 60) {
+                    // Re-arm when scrolled back up
+                    entry.target.classList.remove('srv-in-view', 'in-view');
                 }
             });
         }, {
-            threshold: 0.12,
+            threshold: 0.08,
             rootMargin: '0px 0px -40px 0px'
         });
 
         fadeElements.forEach(el => observer.observe(el));
     } else {
         // Fallback for older browsers
-        fadeElements.forEach(el => el.classList.add('srv-in-view'));
+        fadeElements.forEach(el => el.classList.add('srv-in-view', 'in-view'));
     }
 });

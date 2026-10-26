@@ -221,49 +221,29 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', checkBottomBlur);
     checkBottomBlur();
 
-    // 7. Services Scroll Animation (Fade-Up from bottom to top, re-triggers when scrolling up)
-    const serviceCards = document.querySelectorAll('.service-card');
-    let lastScrollY = window.scrollY;
+    // 7. Universal Sitewide Scroll Animation Engine (Mandatory Fade-Up Across All Sections)
+    const fadeElements = document.querySelectorAll('.fade-up, .srv-fade-up, .service-card');
 
-    const animateServiceCards = () => {
-        const currentScrollY = window.scrollY;
-        const isScrollingUp = currentScrollY < lastScrollY;
-        const windowHeight = window.innerHeight;
-
-        serviceCards.forEach((card) => {
-            const rect = card.getBoundingClientRect();
-            const isVisible = rect.top < windowHeight - 50 && rect.bottom > 50;
-
-            if (isVisible) {
-                card.classList.add('in-view');
-            } else if (rect.top > windowHeight + 40 || rect.bottom < -40) {
-                // Re-arm when offscreen so scrolling back up re-animates bottom to top
-                card.classList.remove('in-view');
-            }
-        });
-
-        lastScrollY = currentScrollY;
-    };
-
-    if ('IntersectionObserver' in window) {
-        const serviceObserver = new IntersectionObserver((entries) => {
+    if ('IntersectionObserver' in window && fadeElements.length > 0) {
+        const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                } else {
-                    entry.target.classList.remove('in-view');
+                    entry.target.classList.add('in-view', 'srv-in-view');
+                } else if (entry.boundingClientRect.top > window.innerHeight + 60) {
+                    // Re-arm when scrolled back up above the element so scrolling down re-reveals smoothly
+                    entry.target.classList.remove('in-view', 'srv-in-view');
                 }
             });
         }, {
-            threshold: 0.12,
-            rootMargin: '0px 0px -30px 0px'
+            threshold: 0.08,
+            rootMargin: '0px 0px -40px 0px'
         });
 
-        serviceCards.forEach(card => serviceObserver.observe(card));
+        fadeElements.forEach(el => scrollObserver.observe(el));
+    } else {
+        // Fallback for older browsers
+        fadeElements.forEach(el => el.classList.add('in-view', 'srv-in-view'));
     }
-
-    window.addEventListener('scroll', animateServiceCards, { passive: true });
-    setTimeout(animateServiceCards, 150);
 
     // 8. Stats Number Counter Animation with dynamic count & pop effect
     const statNumbers = document.querySelectorAll('.stat-number');
