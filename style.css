@@ -991,6 +991,9 @@ body.drag-over .hero-section::after {
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: var(--card-delay, 0s);
     will-change: opacity, transform;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 .service-card.in-view {
