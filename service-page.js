@@ -4,6 +4,61 @@
 // =========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Premium Smooth Momentum Scroll (Lenis Engine)
+    let lenis = null;
+    if (typeof Lenis !== 'undefined') {
+        lenis = new Lenis({
+            duration: 1.25,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // smooth luxury inertia
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1.05,
+            touchMultiplier: 1.8,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        window.lenis = lenis;
+
+        // Smooth Anchor Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (!targetId || targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    lenis.scrollTo(targetElement, {
+                        offset: -50,
+                        duration: 1.4,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                    });
+                    if (navLinks && navLinks.classList.contains('open')) {
+                        navLinks.classList.remove('open');
+                    }
+                }
+            });
+        });
+    } else {
+        // Native fallback smooth anchor navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (!targetId || targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+
     // 1. Header scroll effect
     const header = document.getElementById('siteHeader');
     if (header) {
