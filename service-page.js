@@ -25,32 +25,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Before / After Interactive Slider
+    // 3. Before / After Interactive Slider (CSS clip-path - zero zoom, zero distortion)
     const baContainers = document.querySelectorAll('.ba-slider-container');
     baContainers.forEach(container => {
-        const afterImg = container.querySelector('.ba-after');
-        const handle = container.querySelector('.ba-handle');
         const range = container.querySelector('.ba-range');
-
-        if (!afterImg || !handle) return;
-
         let isDragging = false;
 
         const updatePosition = (percentage) => {
-            const clamped = Math.min(Math.max(percentage, 0), 100);
-            afterImg.style.width = `${clamped}%`;
-            handle.style.left = `${clamped}%`;
-            if (range) range.value = clamped;
+            const clamped = Math.min(Math.max(percentage, 2), 98);
+            container.style.setProperty('--slider-pos', `${clamped}%`);
+            if (range && parseFloat(range.value) !== clamped) {
+                range.value = clamped;
+            }
         };
 
-        // Range input event (keyboard & touch friendly)
+        // Range input event (keyboard arrow keys & accessible controls)
         if (range) {
             range.addEventListener('input', (e) => {
                 updatePosition(parseFloat(e.target.value));
             });
         }
 
-        // Pointer drag support
+        // Pointer & touch drag support
         const onPointerMove = (e) => {
             if (!isDragging) return;
             const rect = container.getBoundingClientRect();

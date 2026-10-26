@@ -541,29 +541,35 @@
                         </div>
                     </div>
 
-                    <div class="ba-slider-container" id="landscapingBaSlider" aria-label="Interactive before and after comparison of Stockport garden transformation">
-                        <!-- Before Image (Base Layer) -->
-                        <div class="ba-image ba-before">
-                            <img src="../../assets/landscaping-before.jpg" alt="Uneven overgrown backyard in Stockport before landscaping groundworks" loading="lazy">
-                            <span class="ba-label ba-label-before">Before</span>
+                    <div class="ba-slider-container" id="landscapingBaSlider" style="--slider-pos: 50%;" aria-label="Interactive before and after comparison of Stockport garden transformation">
+                        <!-- Background / Right Layer: AFTER (Fully Landscaped Garden) -->
+                        <div class="ba-image ba-after-layer">
+                            <img src="../../assets/landscaped-garden-after.jpg" alt="Fully landscaped luxury garden in Stockport with sandstone patio and emerald lawn" loading="lazy">
                         </div>
 
-                        <!-- After Image (Revealed Layer) -->
-                        <div class="ba-image ba-after">
-                            <img src="../../assets/landscaping-after.jpg" alt="Completed luxury landscaped garden with sandstone patio and emerald lawn in Stockport" loading="lazy">
-                            <span class="ba-label ba-label-after">After</span>
+                        <!-- Foreground / Left Layer: BEFORE (Crappy / Unlandscaped Garden) -->
+                        <div class="ba-image ba-before-layer">
+                            <img src="../../assets/crappy-garden-before.jpg" alt="Neglected, unlandscaped garden with patchy lawn and weeds in Stockport before transformation" loading="lazy">
                         </div>
 
-                        <!-- Draggable Handle -->
-                        <div class="ba-handle" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="8 7 3 12 8 17"></polyline>
-                                <polyline points="16 7 21 12 16 17"></polyline>
-                            </svg>
+                        <!-- Pinned Labels (always visible, never cut off) -->
+                        <div class="ba-floating-labels" aria-hidden="true">
+                            <span class="ba-label ba-label-left">Before</span>
+                            <span class="ba-label ba-label-right">After</span>
                         </div>
 
-                        <!-- Accessible range input -->
-                        <input type="range" min="0" max="100" value="50" class="ba-range" aria-label="Slide to compare before and after transformation">
+                        <!-- Draggable Divider Line & Handle -->
+                        <div class="ba-divider-line" aria-hidden="true">
+                            <div class="ba-handle">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Accessible Range Input -->
+                        <input type="range" min="0" max="100" value="50" class="ba-range" aria-label="Slide left or right to compare before and after garden transformation">
                     </div>
                 </div>
 
